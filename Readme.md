@@ -21,6 +21,10 @@ kubectl exec -it kubectl-in-k8s sh
 
 # While inside
 kubectl get pods
+exit
+
+# Delete it
+kubectl delete -f k8s.yaml
 ```
 
 ## Build
