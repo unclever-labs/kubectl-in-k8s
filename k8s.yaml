@@ -1,0 +1,38 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kubectl-in-k8s
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kubectl-in-k8s
+    spec:
+      serviceAccountName: kubectl-in-k8s-role
+      containers:
+      - name: kubectl-in-k8s
+        imagePullPolicy: Always
+        image: uncleverlabs/kubectl-in-k8s
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubectl-in-k8s-role
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: kubectl-in-k8s-role
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubectl-in-k8s-role
+  namespace: default
